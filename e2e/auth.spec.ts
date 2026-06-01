@@ -10,6 +10,11 @@ test("unauthenticated dashboard redirects to login", async ({ page }) => {
   await expect(page.getByRole("button", { name: /MGM SSO/i })).toBeVisible();
 });
 
+test("unauthenticated onboarding redirects to login", async ({ page }) => {
+  await page.goto("/onboarding");
+  await expect(page).toHaveURL(/\/login/);
+});
+
 test("login page renders the SSO entry point", async ({ page }) => {
   await page.goto("/login");
   await expect(page.getByRole("heading", { name: /welcome back/i })).toBeVisible();
