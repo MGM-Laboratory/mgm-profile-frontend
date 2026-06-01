@@ -4,7 +4,18 @@
     "tagline": "The MGM Laboratory member directory",
     "language": "Language",
     "signIn": "Sign in",
-    "goHome": "Back to directory"
+    "signOut": "Sign out",
+    "goHome": "Back to directory",
+    "nav": {
+      "profile": "My profile",
+      "directory": "Directory"
+    }
+  },
+  "auth": {
+    "title": "Welcome back",
+    "subtitle": "Sign in with your MGM Laboratory account to edit your profile.",
+    "continueWithKeycloak": "Continue with MGM SSO",
+    "ssoNote": "Single sign-on, powered by Keycloak."
   },
   "landing": {
     "eyebrow": "MGM Laboratory",
