@@ -1,0 +1,23 @@
+{
+  "common": {
+    "appName": "MGM Profile",
+    "tagline": "The MGM Laboratory member directory",
+    "language": "Language",
+    "signIn": "Sign in",
+    "goHome": "Back to directory"
+  },
+  "landing": {
+    "eyebrow": "MGM Laboratory",
+    "titleLead": "Every member,",
+    "titleHighlight": "one profile.",
+    "subtitle": "MGM Profile is the lab's canonical member directory — beautiful, editable profiles backed by Keycloak, browsable by everyone.",
+    "browse": "Browse the directory",
+    "comingSoon": "The directory is being built — check back soon."
+  },
+  "notFound": {
+    "code": "404",
+    "title": "This page wandered off.",
+    "subtitle": "The page you're looking for doesn't exist or may have moved.",
+    "cta": "Back to directory"
+  }
+}

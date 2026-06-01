@@ -1,0 +1,23 @@
+{
+  "common": {
+    "appName": "MGM Profile",
+    "tagline": "Direktori anggota MGM Laboratory",
+    "language": "Bahasa",
+    "signIn": "Masuk",
+    "goHome": "Kembali ke direktori"
+  },
+  "landing": {
+    "eyebrow": "MGM Laboratory",
+    "titleLead": "Setiap anggota,",
+    "titleHighlight": "satu profil.",
+    "subtitle": "MGM Profile adalah direktori anggota resmi lab — profil yang indah dan dapat diedit, didukung Keycloak, dan bisa dijelajahi semua orang.",
+    "browse": "Jelajahi direktori",
+    "comingSoon": "Direktori sedang dibangun — nantikan segera."
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Halaman ini tersesat.",
+    "subtitle": "Halaman yang Anda cari tidak ada atau mungkin telah dipindahkan.",
+    "cta": "Kembali ke direktori"
+  }
+}

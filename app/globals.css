@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+/*
+  MGM Laboratory design system — light mode only.
+  Tokens ported from DESIGN_SYSTEM.md / example-tailwind.config.js into the
+  Tailwind v4 @theme layer so they're available as utilities (bg-brand-blue,
+  text-ink-2, font-display, text-display-xl, shadow-2, ease-out-soft, …).
+  The page background is white. Always. There is no dark mode.
+*/
+
+@theme {
+  /* ---- Surfaces ---- */
+  --color-bg: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f7f7f5;
+  --color-surface-inverse: #0e1116;
+
+  /* ---- Brand ---- */
+  --color-brand-blue: #3a6dc5;
+  --color-brand-yellow: #f7bf33;
+  --color-brand-red: #f94141;
+  --color-brand-green: #0f8657;
+
+  /* Tints (8% of brand over white) */
+  --color-brand-blue-50: #ecf1fa;
+  --color-brand-yellow-50: #fef6e0;
+  --color-brand-red-50: #fee5e5;
+  --color-brand-green-50: #e2f1ea;
+
+  /* ---- Text ---- */
+  --color-ink: #0e1116;
+  --color-ink-2: #3b4150;
+  --color-ink-3: #6b7280;
+  --color-ink-4: #9aa1ad;
+
+  /* ---- Lines ---- */
+  --color-line: #ececea;
+  --color-line-strong: #d8d8d2;
+
+  /* Focus ring */
+  --color-focus: #3a6dc5;
+
+  /* ---- Type families ---- */
+  --font-display: var(--font-bricolage), "Söhne", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-geist), "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), "JetBrains Mono", ui-monospace, monospace;
+
+  /* ---- Type scale (size / line-height / tracking / weight) ---- */
+  --text-display-2xl: 4.5rem;
+  --text-display-2xl--line-height: 1.02;
+  --text-display-2xl--letter-spacing: -0.03em;
+  --text-display-2xl--font-weight: 600;
+
+  --text-display-xl: 3.5rem;
+  --text-display-xl--line-height: 1.05;
+  --text-display-xl--letter-spacing: -0.025em;
+  --text-display-xl--font-weight: 600;
+
+  --text-display-lg: 2.5rem;
+  --text-display-lg--line-height: 1.1;
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-display-lg--font-weight: 600;
+
+  --text-h1: 2rem;
+  --text-h1--line-height: 1.15;
+  --text-h1--letter-spacing: -0.015em;
+  --text-h1--font-weight: 600;
+
+  --text-h2: 1.5rem;
+  --text-h2--line-height: 1.25;
+  --text-h2--letter-spacing: -0.01em;
+  --text-h2--font-weight: 600;
+
+  --text-h3: 1.25rem;
+  --text-h3--line-height: 1.3;
+  --text-h3--letter-spacing: -0.005em;
+  --text-h3--font-weight: 600;
+
+  --text-h4: 1.0625rem;
+  --text-h4--line-height: 1.4;
+  --text-h4--font-weight: 600;
+
+  --text-body-lg: 1.125rem;
+  --text-body-lg--line-height: 1.6;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+
+  --text-body-sm: 0.9375rem;
+  --text-body-sm--line-height: 1.55;
+
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.5;
+  --text-caption--letter-spacing: 0.005em;
+  --text-caption--font-weight: 500;
+
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1.4;
+  --text-eyebrow--letter-spacing: 0.12em;
+  --text-eyebrow--font-weight: 600;
+
+  /* ---- Radii ---- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  /* ---- Shadows (rare, soft, never dramatic) ---- */
+  --shadow-1: 0 1px 2px rgba(14, 17, 22, 0.04), 0 1px 1px rgba(14, 17, 22, 0.03);
+  --shadow-2: 0 6px 24px -8px rgba(14, 17, 22, 0.1), 0 2px 6px -2px rgba(14, 17, 22, 0.05);
+  --shadow-3: 0 24px 60px -20px rgba(14, 17, 22, 0.18), 0 4px 12px -4px rgba(14, 17, 22, 0.06);
+
+  /* ---- Easing ---- */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Responsive display sizes step down on small screens (DESIGN_SYSTEM §3.4). */
+@layer utilities {
+  .text-display-2xl {
+    font-size: clamp(2.5rem, 6vw + 1rem, 4.5rem);
+  }
+  .text-display-xl {
+    font-size: clamp(2rem, 4.5vw + 1rem, 3.5rem);
+  }
+  .text-display-lg {
+    font-size: clamp(1.75rem, 3vw + 1rem, 2.5rem);
+  }
+  /* Dashboard numerals align in columns. */
+  .tnum {
+    font-feature-settings: "tnum";
+  }
+  /* Long-form prose caps at ~68 characters. */
+  .prose-measure {
+    max-width: 640px;
+  }
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
