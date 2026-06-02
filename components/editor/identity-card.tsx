@@ -1,19 +1,25 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Check, Loader2 } from "lucide-react";
+import { BadgeCheck, Check, Loader2, MailCheck } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
 
 import { BioEditor } from "@/components/editor/bio-editor";
 import { Button } from "@/components/ui/button";
 import { Field, Input } from "@/components/ui/field";
-import { useUpdateIdentity } from "@/lib/hooks";
+import { useSendPersonalEmailVerification, useUpdateIdentity } from "@/lib/hooks";
 import { identitySchema, type IdentityInput } from "@/lib/schemas";
 import type { Identity } from "@/lib/types";
 
 // Keycloak-owned, user-editable identity + contact (plan §4.1). Submits the
 // whole set via write-back; lab email and NIM are shown read-only.
-export function IdentityCard({ identity }: { identity: Identity }) {
+export function IdentityCard({
+  identity,
+  personalEmailVerified = false,
+}: {
+  identity: Identity;
+  personalEmailVerified?: boolean;
+}) {
   const mutation = useUpdateIdentity();
   const form = useForm<IdentityInput>({
     resolver: zodResolver(identitySchema),
@@ -76,6 +82,11 @@ export function IdentityCard({ identity }: { identity: Identity }) {
             error={form.formState.errors.personalEmail?.message}
           >
             <Input id="personalEmail" {...form.register("personalEmail")} />
+            <PersonalEmailVerify
+              verified={personalEmailVerified}
+              hasEmail={!!identity.personalEmail}
+              dirty={form.formState.dirtyFields.personalEmail ?? false}
+            />
           </Field>
           <Field label="Phone" htmlFor="phone" error={form.formState.errors.phone?.message}>
             <Input id="phone" {...form.register("phone")} />
@@ -134,5 +145,52 @@ export function IdentityCard({ identity }: { identity: Identity }) {
         </div>
       </form>
     </section>
+  );
+}
+
+// PersonalEmailVerify shows the verification state of the personal email and,
+// when set but unverified, a button to email a confirmation link.
+function PersonalEmailVerify({
+  verified,
+  hasEmail,
+  dirty,
+}: {
+  verified: boolean;
+  hasEmail: boolean;
+  dirty: boolean;
+}) {
+  const send = useSendPersonalEmailVerification();
+
+  if (verified && !dirty) {
+    return (
+      <span className="text-caption text-brand-green mt-1.5 inline-flex items-center gap-1">
+        <BadgeCheck size={14} strokeWidth={2.25} /> Verified
+      </span>
+    );
+  }
+  if (!hasEmail) return null;
+
+  if (send.isSuccess) {
+    return (
+      <span className="text-caption text-ink-3 mt-1.5 inline-flex items-center gap-1">
+        <MailCheck size={14} strokeWidth={2.25} /> Verification link sent — check your inbox.
+      </span>
+    );
+  }
+
+  return (
+    <div className="mt-1.5 flex items-center gap-2">
+      <button
+        type="button"
+        onClick={() => send.mutate()}
+        disabled={send.isPending || dirty}
+        className="text-caption text-brand-blue inline-flex items-center gap-1 hover:underline disabled:opacity-50"
+        title={dirty ? "Save your changes first" : undefined}
+      >
+        {send.isPending && <Loader2 className="animate-spin" size={13} strokeWidth={2.25} />}
+        Verify this email
+      </button>
+      {send.isError && <span className="text-caption text-brand-red">Couldn&apos;t send</span>}
+    </div>
   );
 }
