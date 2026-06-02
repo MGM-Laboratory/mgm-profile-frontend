@@ -162,6 +162,7 @@ export interface Onboarding {
 
 export interface Me {
   sub: string;
+  slug: string;
   identity: Identity;
   profile: Profile | null;
   onboarding: Onboarding;

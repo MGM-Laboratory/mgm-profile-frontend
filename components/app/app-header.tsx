@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LogOut } from "lucide-react";
+import { LogOut, ShieldCheck } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 
 import { logout } from "@/app/actions/auth";
@@ -7,8 +7,16 @@ import { LocaleSwitcher } from "@/components/locale-switcher";
 import { Logo } from "@/components/logo";
 
 // Header for the private app surface. Shows the signed-in member and a
-// sign-out control (server action).
-export async function AppHeader({ name, email }: { name: string | null; email: string | null }) {
+// sign-out control (server action). Admins additionally get a console link.
+export async function AppHeader({
+  name,
+  email,
+  isAdmin = false,
+}: {
+  name: string | null;
+  email: string | null;
+  isAdmin?: boolean;
+}) {
   const t = await getTranslations("common");
   const display = name || email || "";
   const initial = display.trim().charAt(0).toUpperCase() || "•";
@@ -34,6 +42,15 @@ export async function AppHeader({ name, email }: { name: string | null; email: s
             >
               {t("nav.directory")}
             </Link>
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className="text-caption text-ink-2 hover:bg-surface-muted inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 transition-colors duration-200"
+              >
+                <ShieldCheck size={14} strokeWidth={2.25} />
+                {t("nav.admin")}
+              </Link>
+            )}
           </nav>
         </div>
 

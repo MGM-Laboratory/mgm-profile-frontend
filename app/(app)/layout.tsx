@@ -15,7 +15,11 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
   return (
     <QueryProvider>
-      <AppHeader name={session.user?.name ?? null} email={session.user?.email ?? null} />
+      <AppHeader
+        name={session.user?.name ?? null}
+        email={session.user?.email ?? null}
+        isAdmin={session.isAdmin ?? false}
+      />
       <div className="mx-auto w-full max-w-5xl flex-1 px-6 py-10">{children}</div>
     </QueryProvider>
   );
