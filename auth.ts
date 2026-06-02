@@ -29,21 +29,43 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         token.accessToken = account.access_token;
         token.refreshToken = account.refresh_token;
         token.expiresAt = account.expires_at;
+        token.roles = realmRoles(account.access_token);
         return token;
       }
       if (typeof token.expiresAt === "number" && Date.now() < token.expiresAt * 1000 - 30_000) {
         return token;
       }
-      return refreshAccessToken(token);
+      const refreshed = await refreshAccessToken(token);
+      refreshed.roles = realmRoles(refreshed.accessToken) ?? token.roles;
+      return refreshed;
     },
     async session({ session, token }) {
       session.accessToken = token.accessToken;
       session.error = token.error;
+      session.roles = token.roles ?? [];
+      session.isAdmin = (token.roles ?? []).includes("admin");
       if (token.sub) session.user.id = token.sub;
       return session;
     },
   },
 });
+
+// realmRoles decodes a Keycloak access token (a JWT) and extracts its realm
+// roles (realm_access.roles). Returns undefined when the token can't be read —
+// authorization is also enforced server-side by the backend, so this only gates
+// what the UI offers, never trust boundaries.
+function realmRoles(accessToken: string | undefined): string[] | undefined {
+  if (!accessToken) return undefined;
+  const parts = accessToken.split(".");
+  if (parts.length < 2) return undefined;
+  try {
+    const json = Buffer.from(parts[1], "base64url").toString("utf8");
+    const claims = JSON.parse(json) as { realm_access?: { roles?: string[] } };
+    return claims.realm_access?.roles ?? [];
+  } catch {
+    return undefined;
+  }
+}
 
 // refreshAccessToken exchanges the stored refresh token for a new access token.
 async function refreshAccessToken(token: import("next-auth/jwt").JWT) {

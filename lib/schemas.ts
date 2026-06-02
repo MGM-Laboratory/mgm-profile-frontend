@@ -30,6 +30,14 @@ export const identitySchema = z.object({
 });
 export type IdentityInput = z.infer<typeof identitySchema>;
 
+// Admin force-edit identity: the editable fields PLUS the admin-only lab email
+// (@labmgm.org) and NIM. Used by the admin console (plan §8).
+export const adminIdentitySchema = identitySchema.extend({
+  labEmail: z.string().trim().email("Must be a valid email").max(255).or(z.literal("")),
+  nim: z.string().trim().max(32),
+});
+export type AdminIdentityFormInput = z.infer<typeof adminIdentitySchema>;
+
 // Postgres-owned scalar profile fields.
 export const coreSchema = z.object({
   nickname: z.string().trim().max(120),

@@ -6,6 +6,8 @@ declare module "next-auth" {
   interface Session {
     accessToken?: string;
     error?: "RefreshFailed";
+    roles?: string[];
+    isAdmin?: boolean;
     user: {
       id?: string;
     } & DefaultSession["user"];
@@ -18,5 +20,6 @@ declare module "next-auth/jwt" {
     refreshToken?: string;
     expiresAt?: number;
     error?: "RefreshFailed";
+    roles?: string[];
   }
 }
