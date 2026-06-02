@@ -71,7 +71,13 @@ export function ProfileEditor({ me }: { me: Me }) {
   return (
     <div className="flex flex-col gap-6">
       {card(0, <BasicsCard me={me} />)}
-      {card(1, <IdentityCard identity={me.identity} />)}
+      {card(
+        1,
+        <IdentityCard
+          identity={me.identity}
+          personalEmailVerified={profile?.personalEmailVerified ?? false}
+        />,
+      )}
 
       {card(
         2,

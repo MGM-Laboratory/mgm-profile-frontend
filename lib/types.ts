@@ -140,6 +140,9 @@ export interface Profile {
   nickname: string;
   headline: string;
   division: string;
+  hidden: boolean;
+  featured: boolean;
+  personalEmailVerified: boolean;
   createdAt: string;
   updatedAt: string;
   privacy: Privacy | null;

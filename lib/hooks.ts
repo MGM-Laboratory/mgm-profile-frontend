@@ -61,6 +61,14 @@ export function useUpdatePrivacy() {
   );
 }
 
+// useSendPersonalEmailVerification triggers the backend to email a confirmation
+// link to the member's personal email.
+export function useSendPersonalEmailVerification() {
+  return useMutation({
+    mutationFn: () => api.post("me/personal-email/verification"),
+  });
+}
+
 export function useCompleteOnboarding() {
   const qc = useQueryClient();
   return useMutation({
